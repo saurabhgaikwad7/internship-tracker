@@ -8,8 +8,16 @@ const AddInternship = () => {
   const { addInternship } = useInternships();
 
   const handleAdd = (newInternship) => {
-    addInternship(newInternship);
-    navigate("/"); // back to dashboard
+    if (!newInternship) return;
+
+    // Normalize internship data to include currentStatus
+    const normalizedInternship = {
+      ...newInternship,
+      currentStatus: newInternship.status || newInternship.currentStatus || "Applied",
+    };
+
+    addInternship(normalizedInternship);
+    navigate("/dashboard");
   };
 
   return (

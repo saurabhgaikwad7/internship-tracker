@@ -14,18 +14,17 @@ const Dashboard = () => {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
+  // 🔹 Filter ONLY for list rendering
   const filteredInternships = useMemo(() => {
     return internships.filter((internship) => {
+      const status = internship.currentStatus || internship.status;
       const matchesFilter =
-        filter === "All" || internship.status === filter;
+        filter === "All" ||
+        status === filter;
 
       const matchesSearch =
-        internship.company
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        internship.role
-          .toLowerCase()
-          .includes(search.toLowerCase());
+        internship.company.toLowerCase().includes(search.toLowerCase()) ||
+        internship.role.toLowerCase().includes(search.toLowerCase());
 
       return matchesFilter && matchesSearch;
     });
@@ -33,11 +32,13 @@ const Dashboard = () => {
 
   return (
     <Layout title="Dashboard">
-      <DashboardCards internships={filteredInternships} />
+      {/* ✅ Use ALL internships for analytics */}
+      <DashboardCards internships={internships} />
 
-      <FilterBar setFilter={setFilter} setSearch={setSearch} />
-
-      
+      <FilterBar
+        setFilter={setFilter}
+        setSearch={setSearch}
+      />
 
       <InternshipList
         internships={filteredInternships}

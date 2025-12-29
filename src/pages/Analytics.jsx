@@ -11,7 +11,7 @@ import {
 const Analytics = () => {
   const { internships } = useInternships();
 
-  // ===== CALCULATE STATS =====
+  // ===== CALCULATE FUNNEL STATS =====
   const stats = useMemo(() => {
     const summary = {
       total: internships.length,
@@ -22,10 +22,13 @@ const Analytics = () => {
     };
 
     internships.forEach((item) => {
-      if (item.status === "Applied") summary.applied++;
-      if (item.status === "Interview") summary.interview++;
-      if (item.status === "Offer") summary.offer++;
-      if (item.status === "Rejected") summary.rejected++;
+      // Use currentStatus if available, otherwise fall back to status
+      const status = item.currentStatus || item.status;
+      
+      if (status === "Applied") summary.applied++;
+      if (status === "Interview") summary.interview++;
+      if (status === "Offer") summary.offer++;
+      if (status === "Rejected") summary.rejected++;
     });
 
     return summary;

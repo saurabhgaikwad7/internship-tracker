@@ -2,15 +2,17 @@ import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Sidebar = ({ mobileOpen, closeMobile }) => {
-  // 🔹 Load initial state from localStorage
-  const [collapsed, setCollapsed] = useState(() => {
-    return localStorage.getItem("sidebarCollapsed") === "true";
-  });
+  const [collapsed, setCollapsed] = useState(() =>
+    localStorage.getItem("sidebarCollapsed") === "true"
+  );
 
-  // 🔹 Save state whenever it changes
   useEffect(() => {
     localStorage.setItem("sidebarCollapsed", collapsed);
   }, [collapsed]);
+
+  const handleNavClick = () => {
+    if (mobileOpen) closeMobile();
+  };
 
   return (
     <aside
@@ -20,21 +22,14 @@ const Sidebar = ({ mobileOpen, closeMobile }) => {
       `}
     >
       <div className="sidebar-top">
-        <h2 className="logo">{collapsed ? "IT" : "InternTrack"}</h2>
-
-        <button
-          className="collapse-btn"
-          onClick={() => setCollapsed((prev) => !prev)}
-        >
-          {collapsed ? "➡️" : "⬅️"}
-        </button>
+        <h2 className="logo">
+          InternTrack
+        </h2>
       </div>
 
-      <nav className="nav-links" onClick={closeMobile}>
+      <nav className="nav-links" onClick={handleNavClick}>
         <NavLink to="/dashboard">Dashboard</NavLink>
-
         <NavLink to="/add-internship">Add Internship</NavLink>
-
         <NavLink to="/analytics">Analytics</NavLink>
       </nav>
     </aside>

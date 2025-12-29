@@ -13,10 +13,16 @@ const Header = ({ title, onMenuClick }) => {
       </div>
 
       <div className="user-section">
-        <span className="username">{user?.name}</span>
-        <button className="logout-btn" onClick={logout}>
-          Logout
-        </button>
+        {user && (
+          <>
+            <span className="username">
+              {user.name || "User"}
+            </span>
+            <button className="logout-btn" onClick={logout}>
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

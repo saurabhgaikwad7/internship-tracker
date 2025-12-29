@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const Layout = ({ children, title }) => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
+  useEffect(() => {
+    document.body.style.overflow = mobileSidebarOpen
+      ? "hidden"
+      : "auto";
+  }, [mobileSidebarOpen]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "Escape") {
+        setMobileSidebarOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   return (
     <div className="app-layout">
-      {/* Overlay for mobile */}
       {mobileSidebarOpen && (
         <div
           className="overlay"
